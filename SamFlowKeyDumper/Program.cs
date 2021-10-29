@@ -11,13 +11,15 @@ namespace SamFlowKeyDumper
 {
     class Program
     {
+        private const int RETRIES = 3;
+
         static void Main()
         {
             (bool success, Process process) = GetProcess("SamsungFlowDesktop");
             if (!success)
                 return;
 
-            // Check version and notify user if it might be unsuppoted
+            // Check version and notify user if it might be unsupported
             Version currVersion = GetFlowVersion(process);
             Version latestTested = new Version("4.8.5.0");
             if (currVersion.CompareTo(latestTested) > 0)
@@ -29,8 +31,6 @@ namespace SamFlowKeyDumper
             Console.Error.WriteLine("Connecting to target process...");
             RemoteApp app = RemoteApp.Connect(process);
 
-
-
             Console.Error.WriteLine("Querying for SessionKeyManager objects...");
             RemoteObject sessionKeyManager;
             (success, sessionKeyManager) = GetRemoteObject(app, "*SessionKeyManager");
@@ -38,11 +38,9 @@ namespace SamFlowKeyDumper
                 return;
             Console.Error.WriteLine("Got remote SessionKeyManager instance!");
 
-
             Console.Error.WriteLine("Invoking ToString for sanity:");
             dynamic dynSessionKeyManager = sessionKeyManager.Dynamify();
             Console.Error.WriteLine(dynSessionKeyManager.ToString());
-
 
             Console.Error.WriteLine("Dumping Key and IV:");
             byte[] key = (byte[])(dynSessionKeyManager._key);
@@ -50,17 +48,14 @@ namespace SamFlowKeyDumper
             Console.WriteLine(key.ToHex());
             Console.WriteLine(iv.ToHex());
 
-
             Console.Error.WriteLine("Cleaning up.");
             sessionKeyManager.Dispose();
-
-            Console.Error.WriteLine("Exiting.");
         }
 
         public static (bool, Process) GetProcess(string procName)
         {
             Process target = null;
-            for (int i = 1; i < 4; i++)
+            for (int i = 1; i <= RETRIES; i++)
             {
                 if (i != 1)
                     Console.Error.WriteLine("Retrying...");
@@ -110,7 +105,7 @@ namespace SamFlowKeyDumper
         public static (bool, RemoteObject) GetRemoteObject(RemoteApp app, string typeQuery)
         {
             RemoteObject sessionKeyManager = null;
-            for (int i = 1; i < 4; i++)
+            for (int i = 1; i < RETRIES; i++)
             {
                 if (i != 1)
                     Console.Error.WriteLine("Retrying...");
