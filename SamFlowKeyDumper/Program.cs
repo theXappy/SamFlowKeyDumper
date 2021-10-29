@@ -38,9 +38,11 @@ namespace SamFlowKeyDumper
                 return;
             Console.Error.WriteLine("Got remote SessionKeyManager instance!");
 
+
             Console.Error.WriteLine("Invoking ToString for sanity:");
             dynamic dynSessionKeyManager = sessionKeyManager.Dynamify();
             Console.Error.WriteLine(dynSessionKeyManager.ToString());
+
 
             Console.Error.WriteLine("Dumping Key and IV:");
             byte[] key = (byte[])(dynSessionKeyManager._key);
@@ -48,8 +50,10 @@ namespace SamFlowKeyDumper
             Console.WriteLine(key.ToHex());
             Console.WriteLine(iv.ToHex());
 
+
             Console.Error.WriteLine("Cleaning up.");
             sessionKeyManager.Dispose();
+
             Console.Error.WriteLine("Exiting.");
         }
 
