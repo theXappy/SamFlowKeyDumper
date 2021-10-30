@@ -2,7 +2,7 @@
 Use this app to dump the AES keys used by SamsungFlow (Desktop application) when communicating with a mobile device.
 
 # Usage 
-NOTE: **Binaries are available in the "Release" section.** You don't have to compile yourself.
+NOTE: **Binaries are available in the "Release" section.** You don't have to compile yourself.  
 Make sure you have .NET framework 4.8 installed
 
 1. Open Samsung Flow
