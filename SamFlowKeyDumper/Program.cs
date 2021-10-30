@@ -83,7 +83,6 @@ namespace SamFlowKeyDumper
 
                     Console.Error.WriteLine($"Try #{i} failed. Found {procs.Length} matching processes (Expecting only 1).");
                     Thread.Sleep(100);
-                    continue;
                 }
             }
             if (target == null)
@@ -120,7 +119,6 @@ namespace SamFlowKeyDumper
                 {
                     Console.Error.WriteLine($"Try #{i} failed.");
                     Thread.Sleep(100);
-                    continue;
                 }
             }
 
