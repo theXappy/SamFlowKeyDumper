@@ -1,5 +1,7 @@
 # Samsung Flow Key Dumper
-Use this app to dump the AES keys used by SamsungFlow (Desktop application) when communicating with a mobile device.
+Use this app to dump the AES key and IV used by SamsungFlow (Desktop application) when communicating with a mobile device.
+
+You can use these key and IV with [My Samsung Flow Wireshark dissector](https://github.com/theXappy/SamFlowDissector) to examine your traffic.
 
 # Usage 
 NOTE: **Binaries are available in the "Release" section.** You don't have to compile yourself.  
@@ -13,13 +15,13 @@ Make sure you have .NET framework 4.8 installed
 # Compilation
 1. Clone
 2. Open `SamFlowKeyDumper.sln` in VisualStudio 2019
-3. Contile with `CTRL+B`
+3. Compile with `CTRL+B`
 
 # Inner Working
 If you want to know more about *how* this tools works, here's a short description.  
-Samsung Flow runs a .NET (framework) process called "SamsungFlowDesktop.exe" (not the GUI process).  
+Samsung Flow runs a .NET (framework) process called `SamsungFlowDesktop.exe` (not the GUI process).  
 This process is responsible of communicating with the mobile device. It has several internal classes to do so  
-but most importantly it has a singleton object of type "SessionKeyManager".  
+but most importantly it has a singleton object of type `SessionKeyManager`.  
 This object holds both Key and IV for the current ongoing session.  
-By utilizing my other project (RemoteNET)[https://github.com/theXappy/RemoteNET] (Go check it out :)) we can easily 
-get hold of this object remotly (from SamFlowKeyDumper.exe) and then dump both of his fields containing the key and IV.
+By utilizing my other project [RemoteNET](https://github.com/theXappy/RemoteNET) (Go check it out :)) we can easily get ahold of this object  
+remotly (from `SamFlowKeyDumper.exe`) and then dump both of his fields containing the key and IV.
